@@ -8,10 +8,10 @@ import pygame
 ANCHO = 800
 ALTO = 400
 # Colores
-BLANCO = (255,255,255)  # R,G,B en el rango [0,255]
+principal = (255,255,255)  # R,G,B en el rango [0,255]
 VERDE_BANDERA = (0, 122, 0)
 ROJO = (255, 0, 0)
-MEGRO=(0,0,0)
+fondo=(0,0,0)
 
 def rebotar():
     radio=20
@@ -24,24 +24,21 @@ def rebotar():
     anchoRaqueta=alturaRaqueta//4
     xRaqueta=0
     yRaqueta=ALTO//2 + alturaRaqueta//2
-
-    # Ejemplo del uso de pygame
-    pygame.init()   # Inicializa pygame
-    ventana = pygame.display.set_mode((ANCHO, ALTO))    # Crea la ventana de dibujo
-    reloj = pygame.time.Clock() # Para limitar los fps
-    termina = False # Bandera para saber si termina la ejecución
+    
+    pygame.init()
+    ventana = pygame.display.set_mode((ANCHO, ALTO))
+    reloj = pygame.time.Clock()
+    termina = False
     while not termina:
-        # Procesa los eventos que recibe
         for evento in pygame.event.get():
-            if evento.type == pygame.QUIT:  # El usuario hizo click en el botón de salir
+            if evento.type == pygame.QUIT:
                 termina = True
 
-        # Borrar pantalla
-        ventana.fill(VERDE_BANDERA)
+        ventana.fill(fondo)
         # Dibujar, aquí haces todos los trazos que requieras
-        pygame.draw.circle(ventana,ROJO,(x,y),radio, 0)
-        pygame.draw.rect(ventana,BLANCO,(xRaqueta,yRaqueta,anchoRaqueta,alturaRaqueta),0)
-        for cambio in range(10,100,10):
+        pygame.draw.circle(ventana,principal,(x,y),radio, 0)
+        pygame.draw.rect(ventana,principal,(xRaqueta,yRaqueta,anchoRaqueta,alturaRaqueta),0)
+        for cambio in range(0,800,100):
             pygame.draw.rect(ventana,BLANCO,(ANCHO//2,0+cambio,10,30),0)
         posRaqueta=xRaqueta
         if derecha:
