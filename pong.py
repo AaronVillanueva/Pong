@@ -22,7 +22,12 @@ def rebotar():
     alturaRaqueta=altoVentana//5
     anchoRaqueta=alturaRaqueta//4
     xRaqueta=0
-    
+    xEnemigo=800-anchoRaqueta
+    yEnemigo=400
+    velocidad=5
+    modificadorVelocidad=1
+
+
     pygame.init()
     ventana = pygame.display.set_mode((anchoVentana, altoVentana))
     pygame.display.set_caption('Pong Pygame Villanueva')
@@ -52,10 +57,15 @@ def rebotar():
 
             #Puntajes
             if x<=0:
-                puntajeA+=1
+                puntajeB+=1
                 x=600
                 y=400
+            if x>800:
+                puntajeA+=1
+                x=200
+                y=400
 
+            #Texto puntajes
             textoPuntajeA=fuente.render(str(puntajeA),0,principal)
             posicionPuntajeA=textoPuntajeA.get_rect(center=(anchoVentana//6, 40))
             ventana.blit(textoPuntajeA,posicionPuntajeA)
@@ -70,34 +80,54 @@ def rebotar():
             elif yRaqueta<=0+marco:
                 yRaqueta=marco
 
+            #Pseudo Inteligencia Enemiga
+
+
             #Dibujos
             pygame.draw.circle(ventana,principal,(x,y),radio, 0)
             pygame.draw.rect(ventana,principal,(xRaqueta,yRaqueta,anchoRaqueta,alturaRaqueta),0)
             pygame.draw.line(ventana, principal, (0,marco),(anchoVentana,marco), 5)
+            pygame.draw.rect(ventana, principal, (xEnemigo, yEnemigo, anchoRaqueta, alturaRaqueta), 0)
+
+            #Comportamiento pelota
             if derecha:
-                x+=7
+                x+=velocidad*modificadorVelocidad
             else:
-                x-=7
+                x-=velocidad*modificadorVelocidad
             if abajo:
-                y+=7
+                y+=velocidad*modificadorVelocidad
             else:
-                y-=7
+                y-=velocidad*modificadorVelocidad
+
+            #Pega con la raqueta del jugador
             if x<(anchoRaqueta+radio) and (yRaqueta<y<(yRaqueta+alturaRaqueta+radio)):
                 abajo= not abajo
                 derecha= not derecha
+            #Pega con el enemigo PENDIENTE
             if x>=anchoVentana-radio:
                 derecha=not derecha
+            #Pega con el techo o el suelo
             if y>=altoVentana-radio or y<=radio+marco:
                 abajo=not abajo
 
-            if puntajeA>=5:
+            #Modificador de velocidad
+            if x<(anchoRaqueta+radio) and (yRaqueta<y<(yRaqueta+(alturaRaqueta//2)+radio)):
+                modificadorVelocidad=5
+
+            #Puntaje Maximo
+            if puntajeB>=5 or puntajeA>=5:
                 jugando=False
 
-        #Pantalla derrota
+        #Juego termina y se determina un ganador
         else:
-            textoDerrota = fuente.render("Perdiste", 0, principal)
-            posicionDerrota = textoPuntajeA.get_rect(center=(anchoVentana // 8, altoVentana//5))
-            ventana.blit(textoDerrota, posicionDerrota)
+            if puntajeB>=5:
+                textoDerrota = fuente.render("Perdiste", 0, principal)
+                posicionDerrota = textoPuntajeB.get_rect(center=(anchoVentana // 8, altoVentana//5))
+                ventana.blit(textoDerrota, posicionDerrota)
+            elif puntajeA>=5:
+                textoVictoria= fuente.render("Ganaste",0,principal)
+                posicionVictoria=textoPuntajeA.get_rect(center=(anchoVentana//8, altoVentana//5))
+                ventana.blit(textoVictoria,posicionVictoria)
 
         pygame.display.flip()
         reloj.tick(60)
