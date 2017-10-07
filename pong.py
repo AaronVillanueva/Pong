@@ -12,6 +12,7 @@ lineas=altoVentana//10
 # Colores
 principal = (255,255,255)  # R,G,B en el rango [0,255]
 fondo=(0,0,0)
+
 def musica():
     pygame.mixer.music.load('C:/Users/CINCONUMBERCERO/PycharmProjects/Pong/Pong.ogg')
     pygame.mixer.music.play()
@@ -38,9 +39,10 @@ def rebotar():
     #Cambiar visible a 0 una vez el mouse este implementado
     pygame.mouse.set_visible(1)
     reloj = pygame.time.Clock()
+
     #Fuente Pong!
-    #pygame.font.init()
     fuente = pygame.font.Font(None, 100)
+
     puntajeA = 0
     puntajeB = 0
     menuPrincipal=False
