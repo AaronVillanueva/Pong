@@ -1,5 +1,5 @@
 # encoding: UTF-8
-# Autor: Roberto Martínez Román
+# Autor: Aaron Tonatiuh Villanueva Guzmán
 # Muestra cómo utilizar pygame para escribir programas que dibujan en la pantalla
 
 import pygame
