@@ -136,7 +136,11 @@ def rebotar():
                 abajo=not abajo
 
             #Modificador de velocidad
-            if x<(anchoRaqueta+radio) and (yRaqueta<y<(yRaqueta+(alturaRaqueta//2)+radio)):
+            if x<(anchoRaqueta+radio) and (yRaqueta<y<(yRaqueta+(alturaRaqueta//3))):
+                modificadorVelocidad=2
+            elif x<(anchoRaqueta+radio) and (yRaqueta+(alturaRaqueta//3)<y<(yRaqueta+(2*alturaRaqueta//3))):
+                modificadorVelocidad=1
+            elif x<(anchoRaqueta+radio) and (yRaqueta+(2*(alturaRaqueta//3))<y<(yRaqueta+alturaRaqueta)):
                 modificadorVelocidad=2
 
             #Puntaje Maximo
