@@ -3,6 +3,7 @@
 # Muestra cómo utilizar pygame para escribir programas que dibujan en la pantalla
 
 import pygame
+import random
 
 # Dimensiones de la pantalla
 anchoVentana = 800
@@ -11,6 +12,10 @@ lineas=altoVentana//10
 # Colores
 principal = (255,255,255)  # R,G,B en el rango [0,255]
 fondo=(0,0,0)
+def musica():
+    pygame.mixer.music.load('C:/Users/CINCONUMBERCERO/PycharmProjects/Pong/Pong.ogg')
+    pygame.mixer.music.play()
+    pygame.mixer.music.set_volume(1)
 
 def rebotar():
     radio=20
@@ -27,11 +32,7 @@ def rebotar():
     modificadorVelocidad=1
 
     pygame.init()
-    pygame.mixer.music.load('C:/Users/CINCONUMBERCERO/PycharmProjects/Pong/Pong.ogg')
-    #pygame.mixer.music.play()
-    pygame.mixer.music.set_volume(1)
-    xMouse=0
-    yMouse=0
+    #musica()
     ventana = pygame.display.set_mode((anchoVentana, altoVentana))
     pygame.display.set_caption('Pong Pygame Villanueva')
     #Cambiar visible a 0 una vez el mouse este implementado
@@ -64,14 +65,13 @@ def rebotar():
                         ventana.fill(fondo)
 
         if jugando==True:
-            #Texto
-            textoPong=fuente.render("Pong!",0,principal)
-            posicionPong= textoPong.get_rect(center=(400,40))
-            ventana.blit(textoPong,posicionPong)
-
             ventana.fill(fondo)
-            #Puntajes
 
+            # Texto
+            textoPong = fuente.render("Pong!", 0, principal)
+            posicionPong = textoPong.get_rect(center=(400, 40))
+            ventana.blit(textoPong, posicionPong)
+            #Puntajes
             if x<=0-(anchoVentana//10):
                 puntajeB+=1
                 x=600
@@ -98,11 +98,10 @@ def rebotar():
 
             #Pseudo Inteligencia Enemiga
             yEnemigo=y-(alturaRaqueta//2)
-            if (yEnemigo-(alturaRaqueta//2))>= altoVentana-alturaRaqueta:
-                yEnemigo=altoVentana
+            if yEnemigo+alturaRaqueta>=altoVentana:
+                yEnemigo=altoVentana-(alturaRaqueta)
             elif yEnemigo<=0+marco:
                 yEnemigo=marco
-
 
             #Dibujos
             pygame.draw.circle(ventana,principal,(x,y),radio, 0)
@@ -121,15 +120,23 @@ def rebotar():
                 y+=velocidad*modificadorVelocidad
             else:
                 y-=velocidad*modificadorVelocidad
+            rebote=random.randint(1,2)
 
             #Pega con la raqueta del jugador
             if x<(anchoRaqueta+radio) and (yRaqueta<y<(yRaqueta+alturaRaqueta+radio)):
-                abajo= not abajo
                 derecha= not derecha
-            #Pega con el enemigo PENDIENTE
+                if rebote==1:
+                    abajo=abajo
+                else:
+                    abajo=not abajo
+
+            #Pega con el enemigo
             if x>=(xEnemigo-radio) and (yEnemigo<y<(yEnemigo+alturaRaqueta+radio)):
-                abajo= not abajo
                 derecha= not derecha
+                if rebote==1:
+                    abajo=abajo
+                else:
+                    abajo=not abajo
 
             #Pega con el techo o el suelo
             if y>=altoVentana-radio or y<=radio+marco:
