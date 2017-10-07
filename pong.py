@@ -23,44 +23,60 @@ def rebotar():
     anchoRaqueta=alturaRaqueta//4
     xRaqueta=0
     xEnemigo=800-anchoRaqueta
-    yEnemigo=400
     velocidad=5
     modificadorVelocidad=1
 
-
     pygame.init()
+    pygame.mixer.music.load('C:/Users/CINCONUMBERCERO/PycharmProjects/Pong/Pong.ogg')
+    #pygame.mixer.music.play()
+    pygame.mixer.music.set_volume(1)
+    xMouse=0
+    yMouse=0
     ventana = pygame.display.set_mode((anchoVentana, altoVentana))
     pygame.display.set_caption('Pong Pygame Villanueva')
     #Cambiar visible a 0 una vez el mouse este implementado
     pygame.mouse.set_visible(1)
     reloj = pygame.time.Clock()
-    jugando=True
     #Fuente Pong!
     #pygame.font.init()
     fuente = pygame.font.Font(None, 100)
     puntajeA = 0
     puntajeB = 0
+    menuPrincipal=False
+    jugando=True
     termina = False
     while not termina:
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 termina = True
 
-        ventana.fill(fondo)
+        if menuPrincipal==True:
+            ventana.fill(fondo)
+            textoInicio = fuente.render("Empezar", 0, principal)
+            posicionInicio = textoInicio.get_rect(center=(anchoVentana // 2, altoVentana // 2))
+            ventana.blit(textoInicio, posicionInicio)
+            for event in pygame.event.get():
+                if event.type==pygame.mouse.get_pressed():
+                    xMouse,yMouse,nada=pygame.mouse.get_pressed()
+                    if xMouse==True :
+                        menuPrincipal=False
+                        jugando=True
+                        ventana.fill(fondo)
+
         if jugando==True:
             #Texto
             textoPong=fuente.render("Pong!",0,principal)
             posicionPong= textoPong.get_rect(center=(400,40))
             ventana.blit(textoPong,posicionPong)
-            for cambio in range(0,altoVentana,lineas):
-                pygame.draw.rect(ventana,principal,(anchoVentana//2,marco+cambio,10,30),0)
 
+            ventana.fill(fondo)
             #Puntajes
-            if x<=0:
+
+            if x<=0-(anchoVentana//10):
                 puntajeB+=1
                 x=600
                 y=400
-            if x>800:
+            if x>800+(anchoVentana//10):
                 puntajeA+=1
                 x=200
                 y=400
@@ -81,6 +97,11 @@ def rebotar():
                 yRaqueta=marco
 
             #Pseudo Inteligencia Enemiga
+            yEnemigo=y-(alturaRaqueta//2)
+            if (yEnemigo-(alturaRaqueta//2))>= altoVentana-alturaRaqueta:
+                yEnemigo=altoVentana
+            elif yEnemigo<=0+marco:
+                yEnemigo=marco
 
 
             #Dibujos
@@ -88,6 +109,8 @@ def rebotar():
             pygame.draw.rect(ventana,principal,(xRaqueta,yRaqueta,anchoRaqueta,alturaRaqueta),0)
             pygame.draw.line(ventana, principal, (0,marco),(anchoVentana,marco), 5)
             pygame.draw.rect(ventana, principal, (xEnemigo, yEnemigo, anchoRaqueta, alturaRaqueta), 0)
+            for cambio in range(0,altoVentana,lineas):
+                pygame.draw.rect(ventana,principal,(anchoVentana//2,marco+cambio,10,30),0)
 
             #Comportamiento pelota
             if derecha:
@@ -104,15 +127,17 @@ def rebotar():
                 abajo= not abajo
                 derecha= not derecha
             #Pega con el enemigo PENDIENTE
-            if x>=anchoVentana-radio:
-                derecha=not derecha
+            if x>=(xEnemigo-radio) and (yEnemigo<y<(yEnemigo+alturaRaqueta+radio)):
+                abajo= not abajo
+                derecha= not derecha
+
             #Pega con el techo o el suelo
             if y>=altoVentana-radio or y<=radio+marco:
                 abajo=not abajo
 
             #Modificador de velocidad
             if x<(anchoRaqueta+radio) and (yRaqueta<y<(yRaqueta+(alturaRaqueta//2)+radio)):
-                modificadorVelocidad=5
+                modificadorVelocidad=2
 
             #Puntaje Maximo
             if puntajeB>=5 or puntajeA>=5:
