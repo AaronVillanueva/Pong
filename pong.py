@@ -6,11 +6,10 @@ import pygame
 
 # Dimensiones de la pantalla
 ANCHO = 800
-ALTO = 400
+ALTO = 800
+lineas=ALTO//10
 # Colores
 principal = (255,255,255)  # R,G,B en el rango [0,255]
-VERDE_BANDERA = (0, 122, 0)
-ROJO = (255, 0, 0)
 fondo=(0,0,0)
 
 def rebotar():
@@ -38,9 +37,8 @@ def rebotar():
         # Dibujar, aquí haces todos los trazos que requieras
         pygame.draw.circle(ventana,principal,(x,y),radio, 0)
         pygame.draw.rect(ventana,principal,(xRaqueta,yRaqueta,anchoRaqueta,alturaRaqueta),0)
-        for cambio in range(0,800,100):
-            pygame.draw.rect(ventana,BLANCO,(ANCHO//2,0+cambio,10,30),0)
-        posRaqueta=xRaqueta
+        for cambio in range(0,ALTO,lineas):
+            pygame.draw.rect(ventana,principal,(ANCHO//2,0+cambio,10,30),0)
         if derecha:
             x+=7
         else:
@@ -52,6 +50,9 @@ def rebotar():
         if x>=ANCHO-radio:
             derecha=not derecha
         if y>=ALTO-radio or y<=radio:
+            abajo=not abajo
+        if x==(xRaqueta+anchoRaqueta) and (yRaqueta>=y>=(yRaqueta+alturaRaqueta)):
+            derecha=not derecha
             abajo=not abajo
 
 
