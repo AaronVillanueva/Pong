@@ -1,6 +1,6 @@
 # encoding: UTF-8
 # Autor: Aaron Tonatiuh Villanueva Guzmán
-# Muestra cómo utilizar pygame para escribir programas que dibujan en la pantalla
+# Pong inicial con tantas funciones pueda hacer con minima atención a la documentación
 
 import pygame
 import random
