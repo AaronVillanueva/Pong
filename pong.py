@@ -14,7 +14,7 @@ principal = (255,255,255)  # R,G,B en el rango [0,255]
 fondo=(0,0,0)
 
 def musica():
-    pygame.mixer.music.load('C:/Users/CINCONUMBERCERO/PycharmProjects/Pong/Pong.ogg')
+    pygame.mixer.music.load('Pong.ogg')
     pygame.mixer.music.play()
     pygame.mixer.music.set_volume(1)
 
