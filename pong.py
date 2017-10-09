@@ -178,3 +178,14 @@ def main():
 
 
 main()
+
+
+if evento.type==pygame.KEYDOWN:
+    if evento.key==pygame.K_DOWN:
+        dyRaqueta=+20
+        moverRaqueta=True
+    if evento.key==pygame.K_UP
+        dyRaqueta=-20
+        moverRaqueta=True
+if evento.type==pygameKEYUP:
+    moverRaqueta=False
